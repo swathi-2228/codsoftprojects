@@ -1,0 +1,74 @@
+#codsoftproject2#calculator
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+# Function to perform calculations based on user input
+def calculate():
+    try:
+        num1 = float(entry_num1.get())
+        num2 = float(entry_num2.get())
+        operation = combo_operation.get()
+
+        if operation == "Addition (+)":
+            result = num1 + num2
+        elif operation == "Subtraction (-)":
+            result = num1 - num2
+        elif operation == "Multiplication (×)":
+            result = num1 * num2
+        elif operation == "Division (÷)":
+            if num2 != 0:
+                result = num1 / num2
+            else:
+                messagebox.showwarning("Warning", "Division by zero is not allowed!")
+                return
+        else:
+            messagebox.showerror("Error", "Please select an operation.")
+            return
+
+        result_label.config(text=f"Result: {result:.2f}")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numbers.")
+
+# Main window setup
+window = tk.Tk()
+window.title("Simple Calculator")
+window.geometry("400x300")
+window.config(bg="#fafafa")
+
+# Title Label
+title_label = ttk.Label(window, text="Simple Calculator", font=("Arial", 18, "bold"))
+title_label.pack(pady=10)
+
+# Frame for Input Fields and Operations
+frame = ttk.Frame(window)
+frame.pack(pady=10)
+
+# Number 1 Entry
+label_num1 = ttk.Label(frame, text="Number 1:")
+label_num1.grid(row=0, column=0, padx=5, pady=5)
+entry_num1 = ttk.Entry(frame, width=15)
+entry_num1.grid(row=0, column=1, padx=5, pady=5)
+
+# Number 2 Entry
+label_num2 = ttk.Label(frame, text="Number 2:")
+label_num2.grid(row=1, column=0, padx=5, pady=5)
+entry_num2 = ttk.Entry(frame, width=15)
+entry_num2.grid(row=1, column=1, padx=5, pady=5)
+
+# Dropdown for selecting the operation
+label_operation = ttk.Label(frame, text="Operation:")
+label_operation.grid(row=2, column=0, padx=5, pady=5)
+combo_operation = ttk.Combobox(frame, values=["Addition (+)", "Subtraction (-)", "Multiplication (×)", "Division (÷)"], state="readonly")
+combo_operation.grid(row=2, column=1, padx=5, pady=5)
+combo_operation.current(0)  # Set default selection
+
+# Button to calculate
+calculate_button = ttk.Button(window, text="Calculate", command=calculate)
+calculate_button.pack(pady=20)
+
+# Label to display the result
+result_label = ttk.Label(window, text="Result:", font=("Arial", 14))
+result_label.pack(pady=10)
+
+# Main Loop
+window.mainloop()
